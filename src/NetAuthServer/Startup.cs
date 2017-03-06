@@ -60,7 +60,7 @@ namespace NetAuthServer
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(LogLevel.Debug);
-            loggerFactory.AddDebug(LogLevel.Debug);
+            //loggerFactory.AddDebug(LogLevel.Debug);
 
             app.UseDeveloperExceptionPage();
 

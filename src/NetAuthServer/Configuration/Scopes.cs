@@ -5,6 +5,7 @@ namespace NetAuthServer.Configuration
 {
     public class Resources
     {
+
         public static IEnumerable<IdentityResource> Get()
         {
             return new List<IdentityResource>

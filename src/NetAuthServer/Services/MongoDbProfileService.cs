@@ -18,6 +18,7 @@ namespace NetAuthServer.Services
 
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
+            System.Console.Write(context.Caller);
             var subjectId = context.Caller;
 
             var user = _repository.GetUserById(subjectId);
@@ -39,6 +40,7 @@ namespace NetAuthServer.Services
 
         public Task IsActiveAsync(IsActiveContext context)
         {
+            System.Console.Write(context.Caller);
             var user = _repository.GetUserById(context.Caller);
 
             context.IsActive = (user != null) && user.IsActive;

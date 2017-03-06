@@ -15,14 +15,14 @@ namespace NetAuthServer.Configuration
                 new Client
                 {
                     ClientId = "client",
-                    ClientSecrets = new List<Secret>
+                    ClientSecrets = 
                     {
                         new Secret("secret".Sha256())
                     },
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
 
-                    AllowedScopes = new List<string>
+                    AllowedScopes = 
                     {
                         "api1", "api2"
                     }
@@ -34,14 +34,14 @@ namespace NetAuthServer.Configuration
                 new Client
                 {
                     ClientId = "roclient",
-                    ClientSecrets = new List<Secret>
+                    ClientSecrets = 
                     {
                         new Secret("secret".Sha256())
                     },
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
-                    AllowedScopes = new List<string>
+                    AllowedScopes = 
                     {
                         IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServer4.IdentityServerConstants.StandardScopes.Email,
@@ -79,14 +79,14 @@ namespace NetAuthServer.Configuration
                 new Client
                 {
                     ClientId = "roclient.reference",
-                    ClientSecrets = new List<Secret>
+                    ClientSecrets = 
                     {
                         new Secret("secret".Sha256())
                     },
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
-                    AllowedScopes = new List<string>
+                    AllowedScopes = 
                     {
                         "api1", "api2"
                     },
@@ -104,12 +104,12 @@ namespace NetAuthServer.Configuration
                     ClientUri = "http://identityserver.io",
 
                     AllowedGrantTypes = GrantTypes.Implicit,
-                    RedirectUris = new List<string>
+                    RedirectUris = 
                     {
                         "http://localhost:5000/signin-oidc"
                     },
 
-                    AllowedScopes = new List<string>
+                    AllowedScopes = 
                     {
                         IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
@@ -129,12 +129,12 @@ namespace NetAuthServer.Configuration
                     ClientUri = "http://identityserver.io",
 
                     AllowedGrantTypes = GrantTypes.Implicit,
-                    RedirectUris = new List<string>
+                    RedirectUris = 
                     {
                         "http://localhost:28895/index.html"
                     },
 
-                    AllowedScopes = new List<string>
+                    AllowedScopes = 
                     {
                         "api1", "api2"
                     }
@@ -150,22 +150,22 @@ namespace NetAuthServer.Configuration
                     ClientUri = "http://identityserver.io",
 
                     AllowedGrantTypes = GrantTypes.Implicit,
-                    RedirectUris = new List<string>
+                    RedirectUris = 
                     {
                         "http://localhost:7017/index.html",
                         "http://localhost:7017/silent_renew.html",
                     },
-                    PostLogoutRedirectUris = new List<string>
+                    PostLogoutRedirectUris = 
                     {
                         "http://localhost:7017/index.html",
                     },
 
-                    AllowedCorsOrigins = new List<string>
+                    AllowedCorsOrigins = 
                     {
                         "http://localhost:7017"
                     },
 
-                    AllowedScopes = new List<string>
+                    AllowedScopes = 
                     {
                         IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServer4.IdentityServerConstants.StandardScopes.Profile,

@@ -16,7 +16,9 @@ namespace NetAuthServer.Services
 
         public Task<Client> FindClientByIdAsync(string clientId)
         {
+            
             var client = _repository.GetClient(clientId);
+
             if (client == null)
             {
                 return Task.FromResult<Client>(null);
