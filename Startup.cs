@@ -4,6 +4,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetAuth.Models;
+using NetAuth.Services;
+using IdentityServer4.Services;
+using IdentityServer4.Stores;
+using IdentityServer4.Validation;
+using CustomGrantValidator = NetAuth.Extensions.CustomGrantValidator;
+using Microsoft.AspNetCore.Identity;
 
 namespace NetAuth
 {
@@ -11,6 +18,8 @@ namespace NetAuth
     {
         public Startup(IHostingEnvironment env)
         {
+            Environment = env;
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -26,20 +35,39 @@ namespace NetAuth
             Configuration = builder.Build();
         }
         
-        public IConfigurationRoot Configuration { get; }
-        
+        private readonly IHostingEnvironment Environment;
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
-                .AddTemporarySigningCredential();
+            var builder = services.AddIdentityServer()
+                .AddTemporarySigningCredential()
+                .AddInMemoryIdentityResources(NetAuth.Configuration.Resources.Get())
+                .AddExtensionGrantValidator<CustomGrantValidator>();
+
+            services.AddTransient<IRepository, MongoDbRepository>();
+            services.AddTransient<IClientStore, MongoDbClientStore>();
+            services.AddTransient<IProfileService, MongoDbProfileService>();
+            services.AddTransient<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
+            services.AddTransient<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
+            services.Configure<MongoDbRepositoryConfiguration>(Configuration.GetSection("MongoDbRepository"));
+
+            services.AddMvc();
+
+            services.AddTransient<NetAuth.Quickstart.Login.LoginService>();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(LogLevel.Debug);
+            loggerFactory.AddDebug(LogLevel.Debug);
+
             app.UseDeveloperExceptionPage();
 
             app.UseIdentityServer();
+
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
