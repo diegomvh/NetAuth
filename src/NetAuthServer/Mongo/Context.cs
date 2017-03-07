@@ -52,7 +52,6 @@ namespace NetAuthServer.Mongo
 
         public bool ValidatePassword(string username, string plainTextPassword)
         {
-            System.Console.Write("ValidatePassword");
             var user = this.UserRepository.GetUserByUsername(username);
             if (user == null)
             {

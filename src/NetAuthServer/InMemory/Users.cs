@@ -13,7 +13,7 @@ namespace NetAuthServer.InMemory
         {
             var users = new List<TestUser>
             {
-                new TestUser{SubjectId = "818727", Username = "alice", Password = "alice", 
+                new TestUser{SubjectId = "alice", Username = "alice", Password = "alice", 
                     Claims = new Claim[]
                     {
                         new Claim(JwtClaimTypes.Name, "Alice Smith"),
@@ -27,7 +27,7 @@ namespace NetAuthServer.InMemory
                         new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServerConstants.ClaimValueTypes.Json)
                     }
                 },
-                new TestUser{SubjectId = "88421113", Username = "bob", Password = "bob", 
+                new TestUser{SubjectId = "bob", Username = "bob", Password = "bob",
                     Claims = new Claim[]
                     {
                         new Claim(JwtClaimTypes.Name, "Bob Smith"),

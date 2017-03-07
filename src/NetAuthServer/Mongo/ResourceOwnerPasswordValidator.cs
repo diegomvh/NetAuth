@@ -17,17 +17,14 @@ namespace NetAuthServer.Mongo
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            System.Console.Write("ValidateAsync");
             var userName = context.UserName;
             var password = context.Password;
-            var optionalClaims = new List<Claim>() {};
-
-            if (_context.ValidatePassword(userName, password))
-            {
-                return Task.FromResult(new GrantValidationResult(userName, "password", optionalClaims));
-            }
-       
-            return Task.FromResult(new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Wrong username or password"));
+            
+            context.Result = _context.ValidatePassword(userName, password) ?
+                new GrantValidationResult(userName, "password"):
+                new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Wrong username or password");
+            
+            return Task.FromResult(0);
         }
     }
 }

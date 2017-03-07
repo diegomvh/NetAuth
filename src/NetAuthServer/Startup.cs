@@ -40,17 +40,20 @@ namespace NetAuthServer
         {
             var builder = services.AddIdentityServer()
                 .AddTemporarySigningCredential()
-                //.AddInMemoryClients(NetAuthServer.InMemory.Clients.Get())
-                //.AddTestUsers(NetAuthServer.InMemory.Users.Get())
-                //.AddInMemoryApiResources(NetAuthServer.InMemory.Resources.GetApi())
-                //.AddInMemoryIdentityResources(NetAuthServer.InMemory.Resources.GetIdentity())
-                .AddExtensionGrantValidator<CustomGrantValidator>();
+                .AddInMemoryClients(NetAuthServer.InMemory.Clients.Get())
+                .AddTestUsers(NetAuthServer.InMemory.Users.Get())
+                .AddInMemoryApiResources(NetAuthServer.InMemory.Resources.GetApi())
+                .AddInMemoryIdentityResources(NetAuthServer.InMemory.Resources.GetIdentity());
+                //.AddExtensionGrantValidator<CustomGrantValidator>();
 
             services.AddTransient<NetAuthServer.Mongo.IContext, NetAuthServer.Mongo.Context>();
-            services.AddTransient<IClientStore, NetAuthServer.Mongo.Stores.ClientStore>();
-            services.AddTransient<IResourceStore, NetAuthServer.Mongo.Stores.ResourceStore>();
+            // Stores
+            //services.AddTransient<IClientStore, NetAuthServer.Mongo.Stores.ClientStore>();
+            //services.AddTransient<IResourceStore, NetAuthServer.Mongo.Stores.ResourceStore>();
+            services.AddTransient<IPersistedGrantStore, NetAuthServer.Mongo.Stores.PersistedGrantStore>();
+            
             services.AddTransient<IProfileService, NetAuthServer.Mongo.Services.ProfileService>();
-            services.AddTransient<IResourceOwnerPasswordValidator, NetAuthServer.Mongo.ResourceOwnerPasswordValidator>();
+            //services.AddTransient<IResourceOwnerPasswordValidator, NetAuthServer.Mongo.ResourceOwnerPasswordValidator>();
             services.AddTransient<IPasswordHasher<NetAuthServer.Mongo.Models.User>, PasswordHasher<NetAuthServer.Mongo.Models.User>>();
             services.Configure<NetAuthServer.Mongo.Repositories.Configuration>(Configuration.GetSection("MongoDbRepository"));
 

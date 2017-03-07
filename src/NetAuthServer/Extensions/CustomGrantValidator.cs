@@ -25,18 +25,13 @@ namespace NetAuthServer.Extensions
     {
         Task IExtensionGrantValidator.ValidateAsync(ExtensionGrantValidationContext context)
         {
-            System.Console.Write("Hola");
             var credential = context.Request.Raw.Get("custom_credential");
-            if (credential != null)
-            {
-                // valid credential
-                return Task.FromResult(new GrantValidationResult("818727", "custom"));
-            }
-            else
-            {
-                // custom error message
-                return Task.FromResult(new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid custom credential"));
-            }
+
+            context.Result = credential != null ?
+                new GrantValidationResult("818727", "custom"):
+                new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid custom credential");
+            
+            return Task.FromResult(0);
         }
 
         public string GrantType
