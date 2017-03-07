@@ -17,6 +17,7 @@ namespace NetAuthServer.Services
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
+            System.Console.Write("ValidateAsync");
             var userName = context.UserName;
             var password = context.Password;
             var optionalClaims = new List<Claim>() {};

@@ -25,6 +25,7 @@ namespace NetAuthServer.Extensions
     {
         Task IExtensionGrantValidator.ValidateAsync(ExtensionGrantValidationContext context)
         {
+            System.Console.Write("Hola");
             var credential = context.Request.Raw.Get("custom_credential");
             if (credential != null)
             {

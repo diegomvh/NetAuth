@@ -8,5 +8,5 @@
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="2.0.0" />
   </ItemGroup>
-  
+
 </Project>

@@ -4,20 +4,20 @@ using System.Threading.Tasks;
 using IdentityModel.Client;
 using Newtonsoft.Json.Linq;
 
-namespace NetAuthClient
+namespace NetAuthResourceOwnerClient
 {
     class Program
     {
         public static void Main(string[] args) => MainAsync().GetAwaiter().GetResult();
-        
+
         private static async Task MainAsync()
         {
             // discover endpoints from metadata
             var disco = await DiscoveryClient.GetAsync("http://localhost:5000");
 
             // request token
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "client", "secret");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
+            var tokenClient = new TokenClient(disco.TokenEndpoint, "ro.client", "secret");
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("alice", "alice", "api1");
 
             if (tokenResponse.IsError)
             {
@@ -39,7 +39,7 @@ namespace NetAuthClient
             }
             else
             {
-                var content = await response.Content.ReadAsStringAsync();
+                var content = response.Content.ReadAsStringAsync().Result;
                 Console.WriteLine(JArray.Parse(content));
             }
         }

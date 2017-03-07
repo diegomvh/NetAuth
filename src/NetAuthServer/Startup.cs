@@ -42,12 +42,16 @@ namespace NetAuthServer
         {
             var builder = services.AddIdentityServer()
                 .AddTemporarySigningCredential()
-                .AddInMemoryIdentityResources(NetAuthServer.Configuration.Resources.Get())
+                //.AddInMemoryClients(NetAuthServer.Configuration.Clients.Get())
+                //.AddTestUsers(NetAuthServer.Configuration.Users.Get())
+                //.AddInMemoryApiResources(NetAuthServer.Configuration.Resources.GetApi())
+                //.AddInMemoryIdentityResources(NetAuthServer.Configuration.Resources.GetIdentity())
                 .AddExtensionGrantValidator<CustomGrantValidator>();
 
             services.AddTransient<IRepository, MongoDbRepository>();
             services.AddTransient<IClientStore, MongoDbClientStore>();
             services.AddTransient<IProfileService, MongoDbProfileService>();
+            services.AddTransient<IResourceStore, MongoDbResourceStore>();
             services.AddTransient<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
             services.AddTransient<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
             services.Configure<MongoDbRepositoryConfiguration>(Configuration.GetSection("MongoDbRepository"));
@@ -59,7 +63,7 @@ namespace NetAuthServer
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(LogLevel.Debug);
+            //loggerFactory.AddConsole(LogLevel.Debug);
             //loggerFactory.AddDebug(LogLevel.Debug);
 
             app.UseDeveloperExceptionPage();

@@ -23,6 +23,7 @@ namespace NetAuthServer.Services
 
         public MongoDbUser GetUserByUsername(string username)
         {
+            System.Console.Write("GetUserByUsername");
             var collection = _db.GetCollection<MongoDbUser>(UsersCollectionName);
             var filter = Builders<MongoDbUser>.Filter.Eq(u => u.Username, username);
             return collection.Find(filter).SingleOrDefaultAsync().Result;
@@ -30,6 +31,7 @@ namespace NetAuthServer.Services
 
         public MongoDbUser GetUserById(string id)
         {
+            System.Console.Write("GetUserById");
             var collection = _db.GetCollection<MongoDbUser>(UsersCollectionName);
             var filter = Builders<MongoDbUser>.Filter.Eq(u => u.Id, id);
             return collection.Find(filter).SingleOrDefaultAsync().Result;
@@ -37,6 +39,7 @@ namespace NetAuthServer.Services
 
         public bool ValidatePassword(string username, string plainTextPassword)
         {
+            System.Console.Write("ValidatePassword");
             var user = GetUserByUsername(username);
             if (user == null)
             {
@@ -59,6 +62,7 @@ namespace NetAuthServer.Services
 
         public MongoDbClient GetClient(string clientId)
         {
+            System.Console.Write("GetClient");
             var collection = _db.GetCollection<MongoDbClient>(ClientsCollectionName);
             var filter = Builders<MongoDbClient>.Filter.Eq(x => x.ClientId, clientId);
             return collection.Find(filter).SingleOrDefaultAsync().Result;

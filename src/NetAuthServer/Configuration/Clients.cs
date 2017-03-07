@@ -24,7 +24,7 @@ namespace NetAuthServer.Configuration
 
                     AllowedScopes = 
                     {
-                        "api1", "api2"
+                        "api1"
                     }
                 },
 
@@ -33,7 +33,7 @@ namespace NetAuthServer.Configuration
                 //////////////////////////////////////////
                 new Client
                 {
-                    ClientId = "roclient",
+                    ClientId = "ro.client",
                     ClientSecrets = 
                     {
                         new Secret("secret".Sha256())
@@ -43,11 +43,7 @@ namespace NetAuthServer.Configuration
 
                     AllowedScopes = 
                     {
-                        IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServer4.IdentityServerConstants.StandardScopes.Email,
-                        IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
-
-                        "api1", "api2"
+                        "api1"
                     }
                 },
 
@@ -69,7 +65,7 @@ namespace NetAuthServer.Configuration
 
                     AllowedScopes = new List<string>
                     {
-                        "api1", "api2"
+                        "api1"
                     }
                 },
 
@@ -88,7 +84,7 @@ namespace NetAuthServer.Configuration
 
                     AllowedScopes = 
                     {
-                        "api1", "api2"
+                        "api1"
                     },
 
                     AccessTokenType = AccessTokenType.Reference
@@ -115,7 +111,7 @@ namespace NetAuthServer.Configuration
                         IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
                         IdentityServer4.IdentityServerConstants.StandardScopes.Email,
                         "roles",
-                        "api1", "api2"
+                        "api1"
                     }
                 },
 
@@ -136,7 +132,7 @@ namespace NetAuthServer.Configuration
 
                     AllowedScopes = 
                     {
-                        "api1", "api2"
+                        "api1"
                     }
                 },
                 
@@ -171,7 +167,7 @@ namespace NetAuthServer.Configuration
                         IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
                         IdentityServer4.IdentityServerConstants.StandardScopes.Email,
                         "roles",
-                        "api1", "api2"
+                        "api1"
                     }
                 },
             };
