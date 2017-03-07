@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using IdentityServer4.Models;
 using MongoDB.Bson;
 
-namespace NetAuthServer.Models
+namespace NetAuthServer.Mongo.Models
 {
     public class ClientSecret
     {
@@ -11,7 +11,7 @@ namespace NetAuthServer.Models
         public string Value { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        public Nullable<DateTime> Expiration  { get; set; }
+        public DateTime? Expiration  { get; set; }
     }
 
     public class ClientClaim

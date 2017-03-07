@@ -2,29 +2,31 @@
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
+using NetAuthServer.Mongo.Repositories;
 
-namespace NetAuthServer.Services
+namespace NetAuthServer.Mongo.Stores
 {
-    public class MongoDbClientStore : IClientStore
+    public class ClientStore : IClientStore
     {
-        private readonly IRepository _repository;
+        private readonly IContext _context;
+        private readonly ClientRepository _repository;
 
-        public MongoDbClientStore(IRepository repository)
+        public ClientStore(IContext context)
         {
-            _repository = repository;
+            _context = context;
+            _repository = _context.GetRepository<NetAuthServer.Mongo.Models.Client>() as ClientRepository;
         }
 
         public Task<Client> FindClientByIdAsync(string clientId)
         {
-            
             var client = _repository.GetClient(clientId);
 
             if (client == null)
             {
-                return Task.FromResult<Client>(null);
+                return Task.FromResult<IdentityServer4.Models.Client>(null);
             }
 
-            return Task.FromResult(new Client()
+            return Task.FromResult(new IdentityServer4.Models.Client()
             {
                 ClientId = client.ClientId,
                 AllowedGrantTypes = client.GrantTypes,

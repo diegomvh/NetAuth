@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NetAuthServer.Models;
-using NetAuthServer.Services;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Validation;
@@ -48,13 +46,13 @@ namespace NetAuthServer
                 //.AddInMemoryIdentityResources(NetAuthServer.InMemory.Resources.GetIdentity())
                 .AddExtensionGrantValidator<CustomGrantValidator>();
 
-            services.AddTransient<IRepository, MongoDbRepository>();
-            services.AddTransient<IClientStore, MongoDbClientStore>();
-            services.AddTransient<IProfileService, MongoDbProfileService>();
-            services.AddTransient<IResourceStore, MongoDbResourceStore>();
-            services.AddTransient<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
-            services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
-            services.Configure<MongoDbRepositoryConfiguration>(Configuration.GetSection("MongoDbRepository"));
+            services.AddTransient<NetAuthServer.Mongo.IContext, NetAuthServer.Mongo.Context>();
+            services.AddTransient<IClientStore, NetAuthServer.Mongo.Stores.ClientStore>();
+            services.AddTransient<IResourceStore, NetAuthServer.Mongo.Stores.ResourceStore>();
+            services.AddTransient<IProfileService, NetAuthServer.Mongo.Services.ProfileService>();
+            services.AddTransient<IResourceOwnerPasswordValidator, NetAuthServer.Mongo.ResourceOwnerPasswordValidator>();
+            services.AddTransient<IPasswordHasher<NetAuthServer.Mongo.Models.User>, PasswordHasher<NetAuthServer.Mongo.Models.User>>();
+            services.Configure<NetAuthServer.Mongo.Repositories.Configuration>(Configuration.GetSection("MongoDbRepository"));
 
             services.AddMvc();
 

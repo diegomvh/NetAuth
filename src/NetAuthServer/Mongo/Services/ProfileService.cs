@@ -4,16 +4,19 @@ using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
+using NetAuthServer.Mongo.Repositories;
 
-namespace NetAuthServer.Services
+namespace NetAuthServer.Mongo.Services
 {
-    public class MongoDbProfileService : IProfileService
+    public class ProfileService : IProfileService
     {
-        private readonly IRepository _repository;
+        private readonly IContext _context;
+        private readonly UserRepository _repository;
 
-        public MongoDbProfileService(IRepository repository)
+        public ProfileService(IContext context)
         {
-            _repository = repository;
+            _context = context;
+            _repository = _context.GetRepository<NetAuthServer.Mongo.Models.User>() as UserRepository;
         }
 
         public Task GetProfileDataAsync(ProfileDataRequestContext context)

@@ -1,28 +1,29 @@
 ﻿using IdentityServer4.Validation;
-using NetAuthServer.Models;
-using NetAuthServer.Services;
+using NetAuthServer.Mongo;
+using NetAuthServer.Mongo.Repositories;
 
 namespace NetAuthServer.Quickstart.Login
 {
     public class LoginService
     {
         private readonly IResourceOwnerPasswordValidator _passwordValidator;
-        private readonly IRepository _repository;
+        private readonly IContext _context;
 
-        public LoginService(IResourceOwnerPasswordValidator passwordValidator, IRepository repository)
+        public LoginService(IResourceOwnerPasswordValidator passwordValidator, IContext context)
         {
             _passwordValidator = passwordValidator;
-            _repository = repository;
+            _context = context;
         }
 
         public bool ValidateCredentials(string username, string password)
         {
-            return _repository.ValidatePassword(username, password);
+            return _context.ValidatePassword(username, password);
         }
 
-        public User FindByUsername(string username)
+        public NetAuthServer.Mongo.Models.User FindByUsername(string username)
         {
-            return _repository.GetUserByUsername(username);
+            var collection = _context.GetRepository<NetAuthServer.Mongo.Models.User>() as UserRepository;
+            return collection.GetUserByUsername(username);
         }
     }
 }

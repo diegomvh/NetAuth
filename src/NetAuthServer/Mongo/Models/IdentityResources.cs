@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using IdentityServer4.Models;
 using MongoDB.Bson;
 
-namespace NetAuthServer.Models
+namespace NetAuthServer.Mongo.Models
 {
     public class IdentityResources
     {

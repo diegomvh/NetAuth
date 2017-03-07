@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 
-namespace NetAuthServer.Services
+namespace NetAuthServer.Mongo
 {
-    public class MongoDbResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
+    public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private readonly IRepository _repository;
+        private readonly IContext _context;
 
-        public MongoDbResourceOwnerPasswordValidator(IRepository repository)
+        public ResourceOwnerPasswordValidator(IContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
@@ -22,7 +22,7 @@ namespace NetAuthServer.Services
             var password = context.Password;
             var optionalClaims = new List<Claim>() {};
 
-            if (_repository.ValidatePassword(userName, password))
+            if (_context.ValidatePassword(userName, password))
             {
                 return Task.FromResult(new GrantValidationResult(userName, "password", optionalClaims));
             }

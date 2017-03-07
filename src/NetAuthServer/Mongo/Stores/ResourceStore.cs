@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 
-namespace NetAuthServer.Services
+namespace NetAuthServer.Mongo.Stores
 {
-    public class MongoDbResourceStore : IResourceStore
+    public class ResourceStore : IResourceStore
     {
         Task<ApiResource> IResourceStore.FindApiResourceAsync(string name)
         {

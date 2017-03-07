@@ -1,6 +1,6 @@
-﻿namespace NetAuthServer.Services
+﻿namespace NetAuthServer.Mongo.Repositories
 {
-    public class MongoDbRepositoryConfiguration
+    public class Configuration
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
