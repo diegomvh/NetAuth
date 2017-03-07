@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IdentityServer4.Models;
 using MongoDB.Bson;
 
@@ -8,9 +9,9 @@ namespace NetAuthServer.Models
     {
         
         public string Value { get; set; }
-        public string? Type { get; set; }
-        public string? Description { get; set; }
-        public DateTime? Expiration  { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public Nullable<DateTime> Expiration  { get; set; }
     }
 
     public class ClientClaim
@@ -35,15 +36,15 @@ namespace NetAuthServer.Models
         public bool AlwaysIncludeUserClaimsInIdToken { get; set; } 
         public bool AlwaysSendClientClaims { get; set; } 
         public int AuthorizationCodeLifetime { get; set; } 
-        public string? ClientName { get; set; } 
-        public string? ClientUri { get; set; } 
+        public string ClientName { get; set; } 
+        public string ClientUri { get; set; } 
         public bool EnableLocalLogin { get; set; } 
         public bool Enabled { get; set; } 
         public int IdentityTokenLifetime { get; set; } 
         public bool IncludeJwtId { get; set; } 
-        public string? LogoUri { get; set; } 
+        public string LogoUri { get; set; } 
         public bool LogoutSessionRequired { get; set; } 
-        public string? LogoutUri { get; set; } 
+        public string LogoutUri { get; set; } 
         public bool PrefixClientClaims { get; set; } 
         public string ProtocolType { get; set; } 
         public int RefreshTokenExpiration { get; set; } 

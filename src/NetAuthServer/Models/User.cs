@@ -1,4 +1,6 @@
-﻿namespace NetAuthServer.Models
+﻿using MongoDB.Bson;
+
+namespace NetAuthServer.Models
 {
     public class MongoDbUser
     {
