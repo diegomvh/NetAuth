@@ -4,10 +4,10 @@ namespace NetAuthServer.Services
 {
     public interface IRepository
     {
-        MongoDbUser GetUserByUsername(string username);
-        MongoDbUser GetUserById(string id);
+        User GetUserByUsername(string username);
+        User GetUserById(string id);
         bool ValidatePassword(string username, string plainTextPassword);
-        MongoDbClient GetClient(string clientId);
+        Client GetClient(string clientId);
 
     }
 }

@@ -28,9 +28,9 @@ namespace NetAuthServer.Services
             {
                 ClientId = client.ClientId,
                 AllowedGrantTypes = client.GrantTypes,
-                AllowedScopes = client.AllowedScopes,
+                AllowedScopes = client.Scopes,
                 RedirectUris = client.RedirectUris,
-                ClientSecrets = client.ClientSecrets.Select(s => new Secret(s.Sha256())).ToList()
+                ClientSecrets = client.Secrets.Select(s => new Secret(s.Value.Sha256())).ToList()
             });
         }
     }

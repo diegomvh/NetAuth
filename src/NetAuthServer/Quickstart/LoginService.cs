@@ -20,7 +20,7 @@ namespace NetAuthServer.Quickstart.Login
             return _repository.ValidatePassword(username, password);
         }
 
-        public MongoDbUser FindByUsername(string username)
+        public User FindByUsername(string username)
         {
             return _repository.GetUserByUsername(username);
         }

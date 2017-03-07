@@ -3,37 +3,38 @@ using NetAuthServer.Models;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
+using MongoDB.Bson;
 
 namespace NetAuthServer.Services
 {
     public class MongoDbRepository : IRepository
     {
-        private readonly IPasswordHasher<MongoDbUser> _passwordHasher;
+        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMongoDatabase _db;
         private const string UsersCollectionName = "Users";
         private const string ClientsCollectionName = "Clients";
         
 
-        public MongoDbRepository(IOptions<MongoDbRepositoryConfiguration> config, IPasswordHasher<MongoDbUser> passwordHasher)
+        public MongoDbRepository(IOptions<MongoDbRepositoryConfiguration> config, IPasswordHasher<User> passwordHasher)
         {
             _passwordHasher = passwordHasher;
             var client = new MongoClient(config.Value.ConnectionString);
             _db = client.GetDatabase(config.Value.DatabaseName);
         }
 
-        public MongoDbUser GetUserByUsername(string username)
+        public User GetUserByUsername(string username)
         {
             System.Console.Write("GetUserByUsername");
-            var collection = _db.GetCollection<MongoDbUser>(UsersCollectionName);
-            var filter = Builders<MongoDbUser>.Filter.Eq(u => u.Username, username);
+            var collection = _db.GetCollection<User>(UsersCollectionName);
+            var filter = Builders<User>.Filter.Eq(u => u.Username, username);
             return collection.Find(filter).SingleOrDefaultAsync().Result;
         }
 
-        public MongoDbUser GetUserById(string id)
+        public User GetUserById(string id)
         {
             System.Console.Write("GetUserById");
-            var collection = _db.GetCollection<MongoDbUser>(UsersCollectionName);
-            var filter = Builders<MongoDbUser>.Filter.Eq(u => u.Id, id);
+            var collection = _db.GetCollection<User>(UsersCollectionName);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, new ObjectId(id));
             return collection.Find(filter).SingleOrDefaultAsync().Result;
         }
 
@@ -60,11 +61,11 @@ namespace NetAuthServer.Services
             }
         }
 
-        public MongoDbClient GetClient(string clientId)
+        public Client GetClient(string clientId)
         {
             System.Console.Write("GetClient");
-            var collection = _db.GetCollection<MongoDbClient>(ClientsCollectionName);
-            var filter = Builders<MongoDbClient>.Filter.Eq(x => x.ClientId, clientId);
+            var collection = _db.GetCollection<Client>(ClientsCollectionName);
+            var filter = Builders<Client>.Filter.Eq(x => x.ClientId, clientId);
             return collection.Find(filter).SingleOrDefaultAsync().Result;
         }
     }

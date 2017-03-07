@@ -25,7 +25,7 @@ namespace NetAuthServer.Services
 
             var claims = new List<Claim>
             {
-                new Claim(JwtClaimTypes.Subject, user.Id),
+                new Claim(JwtClaimTypes.Subject, user.Id.ToString()),
                 new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
                 new Claim(JwtClaimTypes.GivenName, user.FirstName),
                 new Claim(JwtClaimTypes.FamilyName, user.LastName),

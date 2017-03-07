@@ -53,7 +53,7 @@ namespace NetAuthServer
             services.AddTransient<IProfileService, MongoDbProfileService>();
             services.AddTransient<IResourceStore, MongoDbResourceStore>();
             services.AddTransient<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
-            services.AddTransient<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
+            services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
             services.Configure<MongoDbRepositoryConfiguration>(Configuration.GetSection("MongoDbRepository"));
 
             services.AddMvc();

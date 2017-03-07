@@ -2,7 +2,7 @@
 
 namespace NetAuthServer.Models
 {
-    public class MongoDbUser
+    public class User
     {
         public ObjectId Id { get; set; }
         public string Username { get; set; }
