@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using IdentityServer4.Models;
 
-namespace NetAuthServer.Configuration
+namespace NetAuthServer.InMemory
 {
     public class Clients
     {

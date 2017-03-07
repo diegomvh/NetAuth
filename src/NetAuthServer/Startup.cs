@@ -42,10 +42,10 @@ namespace NetAuthServer
         {
             var builder = services.AddIdentityServer()
                 .AddTemporarySigningCredential()
-                //.AddInMemoryClients(NetAuthServer.Configuration.Clients.Get())
-                //.AddTestUsers(NetAuthServer.Configuration.Users.Get())
-                //.AddInMemoryApiResources(NetAuthServer.Configuration.Resources.GetApi())
-                //.AddInMemoryIdentityResources(NetAuthServer.Configuration.Resources.GetIdentity())
+                //.AddInMemoryClients(NetAuthServer.InMemory.Clients.Get())
+                //.AddTestUsers(NetAuthServer.InMemory.Users.Get())
+                //.AddInMemoryApiResources(NetAuthServer.InMemory.Resources.GetApi())
+                //.AddInMemoryIdentityResources(NetAuthServer.InMemory.Resources.GetIdentity())
                 .AddExtensionGrantValidator<CustomGrantValidator>();
 
             services.AddTransient<IRepository, MongoDbRepository>();
