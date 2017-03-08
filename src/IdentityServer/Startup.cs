@@ -46,7 +46,7 @@ namespace NetAuth.IdentityServer
                 .AddInMemoryIdentityResources(NetAuth.IdentityServer.InMemory.Resources.GetIdentity());
                 //.AddExtensionGrantValidator<CustomGrantValidator>();
 
-            services.AddTransient<NetAuth.IdentityServer.Mongo.IContext, NetAuth.IdentityServer.Mongo.Context>();
+            services.AddTransient<NetAuth.Mongo.IContext, NetAuth.Mongo.Context>();
             // Stores
             //services.AddTransient<IClientStore, NetAuth.IdentityServer.Mongo.Stores.ClientStore>();
             //services.AddTransient<IResourceStore, NetAuth.IdentityServer.Mongo.Stores.ResourceStore>();
@@ -54,8 +54,8 @@ namespace NetAuth.IdentityServer
             
             services.AddTransient<IProfileService, NetAuth.IdentityServer.Mongo.Services.ProfileService>();
             //services.AddTransient<IResourceOwnerPasswordValidator, NetAuth.IdentityServer.Mongo.ResourceOwnerPasswordValidator>();
-            services.AddTransient<IPasswordHasher<NetAuth.IdentityServer.Mongo.Models.User>, PasswordHasher<NetAuth.IdentityServer.Mongo.Models.User>>();
-            services.Configure<NetAuth.IdentityServer.Mongo.Repositories.Configuration>(Configuration.GetSection("MongoDbRepository"));
+            services.AddTransient<IPasswordHasher<NetAuth.Mongo.Models.User>, PasswordHasher<NetAuth.Mongo.Models.User>>();
+            services.Configure<NetAuth.IdentityServer.Mongo.Configuration>(Configuration.GetSection("MongoDbRepository"));
 
             services.AddMvc();
 

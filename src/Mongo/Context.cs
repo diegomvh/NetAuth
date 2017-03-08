@@ -11,14 +11,16 @@ namespace NetAuth.Mongo
     public class Context : IContext
     {
         private readonly IMongoDatabase _db;
-        private ClientRepository Clients;
-        private UserRepository Users;
+        public ClientRepository Clients;
+        public UserRepository Users;
+        public PersistedGrantRepository PersistedGrants;
 
         public Context(IMongoDatabase db)
         {
             _db = db;
             this.Clients = new ClientRepository(_db);
             this.Users = new UserRepository(_db);
+            this.PersistedGrants = new PersistedGrantRepository(_db);
         }
     }
 }

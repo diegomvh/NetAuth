@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
-using NetAuth.IdentityServer.Mongo.Repositories;
+using NetAuth.Mongo;
+using NetAuth.Mongo.Repositories;
 
 namespace NetAuth.IdentityServer.Mongo.Stores
 {
     public class PersistedGrantStore : IPersistedGrantStore
     {
-        private readonly IContext _context;
+        private readonly Context _context;
         private readonly PersistedGrantRepository _repository;
 
         public PersistedGrantStore(IContext context)
         {
-            _context = context;
-            _repository = _context.GetRepository<NetAuth.IdentityServer.Mongo.Models.PersistedGrant>() as PersistedGrantRepository;
+            _context = context as NetAuth.Mongo.Context;
+            _repository = _context.PersistedGrants;
         }
 
         Task<IEnumerable<PersistedGrant>> IPersistedGrantStore.GetAllAsync(string subjectId)

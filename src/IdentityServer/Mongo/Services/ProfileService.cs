@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
+using NetAuth.Mongo;
+using NetAuth.Mongo.Repositories;
 
 namespace NetAuth.IdentityServer.Mongo.Services
 {
@@ -17,7 +19,6 @@ namespace NetAuth.IdentityServer.Mongo.Services
         public ProfileService(IContext context)
         {
             _context = context;
-            _repository = _context.GetRepository<NetAuth.Mongo.Models.User>() as UserRepository;
         }
 
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
