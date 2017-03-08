@@ -1,8 +1,8 @@
 using MongoDB.Driver;
 
-namespace NetAuth.IdentityServer.Mongo.Repositories
+namespace NetAuth.Mongo.Repositories
 {
-    public class PersistedGrantRepository : Repository<NetAuth.IdentityServer.Mongo.Models.PersistedGrant>
+    public class PersistedGrantRepository : Repository<NetAuth.Mongo.Models.PersistedGrant>
     {
         private const string CollectionName = "PersistedGrants";
         

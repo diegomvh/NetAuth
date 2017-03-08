@@ -1,6 +1,6 @@
 using System;
 
-namespace NetAuth.IdentityServer.Mongo.Models
+namespace NetAuth.Mongo.Models
 {
     public class PersistedGrant
     {

@@ -1,8 +1,8 @@
 using MongoDB.Driver;
 
-namespace NetAuth.IdentityServer.Mongo.Repositories
+namespace NetAuth.Mongo.Repositories
 {
-    public class Repository<TEntity> where TEntity : class
+    public class Repository<TModel> where TModel : class
     {
         private readonly string _collectionName;
         private readonly IMongoDatabase _db;
@@ -14,9 +14,9 @@ namespace NetAuth.IdentityServer.Mongo.Repositories
             _collectionName = collectionName;
         }
 
-        public IMongoCollection<TEntity> Collection
+        public IMongoCollection<TModel> Collection
         {
-            get { return _db.GetCollection<TEntity>(_collectionName); }
+            get { return _db.GetCollection<TModel>(_collectionName); }
         }
     }
 }

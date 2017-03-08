@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace NetAuth.IdentityServer.Mongo.Models
+namespace NetAuth.Mongo.Models
 {
     public class User
     {

@@ -1,4 +1,4 @@
-﻿namespace NetAuth.IdentityServer.Mongo.Repositories
+﻿namespace NetAuth.Mongo.Repositories
 {
     public class Configuration
     {
