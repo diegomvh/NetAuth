@@ -9,6 +9,8 @@ using IdentityServer4.Stores;
 using IdentityServer4.Validation;
 using CustomGrantValidator = NetAuth.IdentityServer.Extensions.CustomGrantValidator;
 using Microsoft.AspNetCore.Identity;
+using MongoDB.Driver;
+using IdentityServer4.Models;
 
 namespace NetAuth.IdentityServer
 {
@@ -46,6 +48,7 @@ namespace NetAuth.IdentityServer
                 .AddInMemoryIdentityResources(NetAuth.IdentityServer.InMemory.Resources.GetIdentity());
                 //.AddExtensionGrantValidator<CustomGrantValidator>();
 
+            services.AddSingleton<IMongoDatabase>(this.CreateMongoDatabase());
             services.AddTransient<NetAuth.Mongo.IContext, NetAuth.Mongo.Context>();
             // Stores
             //services.AddTransient<IClientStore, NetAuth.IdentityServer.Mongo.Stores.ClientStore>();
@@ -55,18 +58,22 @@ namespace NetAuth.IdentityServer
             services.AddTransient<IProfileService, NetAuth.IdentityServer.Mongo.Services.ProfileService>();
             //services.AddTransient<IResourceOwnerPasswordValidator, NetAuth.IdentityServer.Mongo.ResourceOwnerPasswordValidator>();
             services.AddTransient<IPasswordHasher<NetAuth.Mongo.Models.User>, PasswordHasher<NetAuth.Mongo.Models.User>>();
-            services.Configure<NetAuth.IdentityServer.Mongo.Configuration>(Configuration.GetSection("MongoDbRepository"));
 
             services.AddMvc();
 
             services.AddTransient<NetAuth.IdentityServer.Quickstart.Login.LoginService>();
         }
 
+        public IMongoDatabase CreateMongoDatabase() {
+            var config = Configuration.GetSection("MongoDbRepository");
+            var client = new MongoClient(config.GetValue<string>("ConnectionString"));
+            return client.GetDatabase(config.GetValue<string>("DatabaseName"));
+        }
+        
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             //loggerFactory.AddConsole(LogLevel.Debug);
             //loggerFactory.AddDebug(LogLevel.Debug);
-
             app.UseDeveloperExceptionPage();
 
             app.UseIdentityServer();

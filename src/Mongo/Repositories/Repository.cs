@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 
 namespace NetAuth.Mongo.Repositories
@@ -18,5 +20,21 @@ namespace NetAuth.Mongo.Repositories
         {
             get { return _db.GetCollection<TModel>(_collectionName); }
         }
+
+        public Task Add(TModel model)
+        {
+            return this.Collection.InsertOneAsync(model);
+        }
+
+        public System.Linq.Expressions.Expression Expression
+        {
+            get { return this.Collection.AsQueryable().Expression; }
+        }
+
+        public IQueryProvider Provider
+        {
+            get { return this.Collection.AsQueryable().Provider; }
+        }
+        
     }
 }

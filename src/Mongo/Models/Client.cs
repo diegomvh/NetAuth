@@ -4,20 +4,22 @@ using MongoDB.Bson;
 
 namespace NetAuth.Mongo.Models
 {
-    public class ClientSecret
+    public class Secret
     {
         
         public string Value { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        public DateTime? Expiration  { get; set; }
+        public DateTimeOffset? Expiration  { get; set; }
     }
 
-    public class ClientClaim
+    public class Claim
     {
+
+        public Claim(string type, string value) { Type = type; Value = value; }
         
+        public string Type { get; set; }   
         public string Value { get; set; }
-        public string Type { get; set; }
 
     }
     
@@ -55,11 +57,11 @@ namespace NetAuth.Mongo.Models
         public bool UpdateAccessTokenClaimsOnRefresh { get; set; } 
         public List<string> PostLogoutRedirectUris { get; set; } 
         public List<string> RedirectUris { get; set; } 
-        public List<ClientSecret> Secrets { get; set; }
-        public List<string> GrantTypes { get; set; }
-        public List<string> Scopes { get; set; }
-        public List<ClientClaim> Claims { get; set; }
-        public List<string> CorsOrigins { get; set; }
-        public List<string> IdPRestrictions { get; set; }
+        public List<Secret> ClientSecrets { get; set; }
+        public List<string> AllowedGrantTypes { get; set; }
+        public List<string> AllowedScopes { get; set; }
+        public List<Claim> Claims { get; set; }
+        public List<string> AllowedCorsOrigins { get; set; }
+        public List<string> IdentityProviderRestrictions { get; set; }
     }
 }
