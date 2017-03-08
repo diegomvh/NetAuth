@@ -55,13 +55,13 @@ namespace NetAuth.Mongo.Models
         public bool RequirePkce { get; set; } 
         public int SlidingRefreshTokenLifetime { get; set; } 
         public bool UpdateAccessTokenClaimsOnRefresh { get; set; } 
-        public List<string> PostLogoutRedirectUris { get; set; } 
-        public List<string> RedirectUris { get; set; } 
-        public List<Secret> ClientSecrets { get; set; }
-        public List<string> AllowedGrantTypes { get; set; }
-        public List<string> AllowedScopes { get; set; }
-        public List<Claim> Claims { get; set; }
-        public List<string> AllowedCorsOrigins { get; set; }
-        public List<string> IdentityProviderRestrictions { get; set; }
+        public IEnumerable<string> PostLogoutRedirectUris { get; set; } 
+        public IEnumerable<string> RedirectUris { get; set; } 
+        public IEnumerable<Secret> ClientSecrets { get; set; }
+        public IEnumerable<string> AllowedGrantTypes { get; set; }
+        public IEnumerable<string> AllowedScopes { get; set; }
+        public IEnumerable<Claim> Claims { get; set; }
+        public IEnumerable<string> AllowedCorsOrigins { get; set; }
+        public IEnumerable<string> IdentityProviderRestrictions { get; set; }
     }
 }

@@ -5,14 +5,10 @@ namespace Mongo.Tests
 {
     public class PersistenceTest
     {
-
-        protected IMongoDatabase CreateDataBase() {
-            var client = new MongoClient("mongodb://localhost");
-            return client.GetDatabase("Test");
-        }
-
         protected Context GetContext() {
-            return new Context(this.CreateDataBase());
+            var client = new MongoClient("mongodb://localhost");
+            var db = client.GetDatabase("Test");
+            return new Context(db);
         }
 
     }

@@ -1,4 +1,3 @@
-using NetAuth.Mongo.Models;
 using Xunit;
 
 namespace Mongo.Tests
@@ -9,8 +8,8 @@ namespace Mongo.Tests
         public void PassingTest()
         {
             var context = this.GetContext();
-            context.Clients.Add(new Client() {});
+            var client = TestData.ClientAllProperties();
+            context.Clients.Add(client);
         }
-
     }
 }
