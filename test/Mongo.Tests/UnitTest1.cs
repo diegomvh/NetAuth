@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace Mongo.Tests
@@ -6,9 +5,14 @@ namespace Mongo.Tests
     public class UnitTest1
     {
         [Fact]
-        public void Test1()
+        public void PassingTest()
         {
+            Assert.Equal(4, Add(2, 2));
+        }
 
+        int Add(int x, int y)
+        {
+            return x + y;
         }
     }
 }
