@@ -8,8 +8,9 @@ namespace Mongo.Tests
         public void PassingTest()
         {
             var context = this.GetContext();
-            var client = TestData.ClientAllProperties();
-            context.Clients.Add(client);
+            foreach (var c in TestData.Clients()) {
+                context.Clients.Add(c);
+            }
         }
     }
 }

@@ -21,7 +21,12 @@ namespace NetAuth.Mongo.Repositories
             get { return _db.GetCollection<TModel>(_collectionName); }
         }
 
-        public Task Add(TModel model)
+        public void Add(TModel model)
+        {
+            this.Collection.InsertOne(model);
+        }
+
+        public Task AddAsync(TModel model)
         {
             return this.Collection.InsertOneAsync(model);
         }
