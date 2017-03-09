@@ -4,11 +4,7 @@ using NetAuth.Mongo.Repositories;
 namespace NetAuth.Mongo
 {
 
-    public interface IContext
-    {
-
-    }
-    public class Context : IContext
+    public class Context
     {
         private readonly IMongoDatabase _db;
         public ClientRepository Clients;

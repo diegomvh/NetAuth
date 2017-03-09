@@ -13,9 +13,9 @@ namespace NetAuth.IdentityServer.Mongo.Stores
         private readonly Context _context;
         private readonly PersistedGrantRepository _repository;
 
-        public PersistedGrantStore(IContext context)
+        public PersistedGrantStore(NetAuth.Mongo.Context context)
         {
-            _context = context as NetAuth.Mongo.Context;
+            _context = context;
             _repository = _context.PersistedGrants;
         }
 

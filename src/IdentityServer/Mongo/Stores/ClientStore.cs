@@ -12,15 +12,15 @@ namespace NetAuth.IdentityServer.Mongo.Stores
         private readonly Context _context;
         private readonly ClientRepository _repository;
 
-        public ClientStore(IContext context)
+        public ClientStore(NetAuth.Mongo.Context context)
         {
-            _context = context as NetAuth.Mongo.Context;
+            _context = context;
             _repository = _context.Clients;
         }
 
         public Task<Client> FindClientByIdAsync(string clientId)
         {
-            var client = _repository.GetClient(clientId);
+            var client = _repository.AsQueryable().FirstOrDefault(c => c.ClientId == clientId);
 
             if (client == null)
             {
@@ -30,10 +30,10 @@ namespace NetAuth.IdentityServer.Mongo.Stores
             return Task.FromResult(new IdentityServer4.Models.Client()
             {
                 ClientId = client.ClientId,
-                AllowedGrantTypes = client.GrantTypes,
-                AllowedScopes = client.Scopes,
+                AllowedGrantTypes = client.AllowedGrantTypes,
+                AllowedScopes = client.AllowedScopes,
                 RedirectUris = client.RedirectUris,
-                ClientSecrets = client.Secrets.Select(s => new Secret(s.Value.Sha256())).ToList()
+                ClientSecrets = client.ClientSecrets.Select(s => new Secret(s.Value.Sha256())).ToList()
             });
         }
     }

@@ -49,7 +49,7 @@ namespace NetAuth.IdentityServer
                 //.AddExtensionGrantValidator<CustomGrantValidator>();
 
             services.AddSingleton<IMongoDatabase>(this.CreateMongoDatabase());
-            services.AddTransient<NetAuth.Mongo.IContext, NetAuth.Mongo.Context>();
+            services.AddTransient<NetAuth.Mongo.Context>();
             // Stores
             //services.AddTransient<IClientStore, NetAuth.IdentityServer.Mongo.Stores.ClientStore>();
             //services.AddTransient<IResourceStore, NetAuth.IdentityServer.Mongo.Stores.ResourceStore>();
