@@ -254,7 +254,7 @@ namespace Mongo.Tests
                     },
 
                     // include the following using claims in access token (in addition to subject id)
-                    UserClaims = new List<string>() { ClaimTypes.Name, ClaimTypes.Email },
+                    UserClaims = new List<string>() { JwtClaimTypes.Name, JwtClaimTypes.Email },
 
                     // this API defines two scopes
                     
@@ -274,6 +274,25 @@ namespace Mongo.Tests
                 }
             };
         }
+
+        public static IEnumerable<IdentityResource> IdentityResources() {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Email(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Phone(),
+                new IdentityResources.Address(),
+
+                new IdentityResource
+                {
+                    Name = "role",
+                    DisplayName = "Role",
+                    UserClaims = { "role" }
+                }
+            };
+        }
+        
         private static DateTime WellKnownTime
         {
             get { return new DateTime(2000, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc); }

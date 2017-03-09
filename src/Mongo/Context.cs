@@ -14,7 +14,9 @@ namespace NetAuth.Mongo
         public ClientRepository Clients;
         public UserRepository Users;
         public PersistedGrantRepository PersistedGrants;
-        public ApiResourcesRepository ApiResources;
+        public ApiResourceRepository ApiResources;
+        public IdentityResourceRepository IdentityResources;
+
 
         public Context(IMongoDatabase db)
         {
@@ -22,7 +24,8 @@ namespace NetAuth.Mongo
             this.Clients = new ClientRepository(_db);
             this.Users = new UserRepository(_db);
             this.PersistedGrants = new PersistedGrantRepository(_db);
-            this.ApiResources = new ApiResourcesRepository(_db);
+            this.ApiResources = new ApiResourceRepository(_db);
+            this.IdentityResources = new IdentityResourceRepository(_db);
         }
     }
 }
