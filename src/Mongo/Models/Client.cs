@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using MongoDB.Bson;
 
 namespace NetAuth.Mongo.Models
@@ -50,16 +51,6 @@ namespace NetAuth.Mongo.Models
         public DateTime? Expiration  { get; set; }
     }
 
-    public class Claim
-    {
-
-        public Claim(string type, string value) { Type = type; Value = value; }
-        
-        public string Type { get; set; }   
-        public string Value { get; set; }
-
-    }
-    
     public class Client
     {
         public ObjectId Id { get; set; }

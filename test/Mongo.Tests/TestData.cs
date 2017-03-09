@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using NetAuth.Mongo.Models;
 
 namespace Mongo.Tests
@@ -225,6 +226,7 @@ namespace Mongo.Tests
                         new Claim("client1", "value1"),
                         new Claim("client2", "value2"),
                         new Claim("client3", "value3"),
+                        new Claim("client3", "value3", "value3 type")
                     },
                     UpdateAccessTokenClaimsOnRefresh = true,
                     AllowedCorsOrigins = new List<string>() { "CorsOrigin1", "CorsOrigin2", "CorsOrigin3", },
@@ -235,6 +237,43 @@ namespace Mongo.Tests
             };
         }
 
+        public static IEnumerable<ApiResource> ApiResources() {
+            return new List<ApiResource>()
+            {
+                new ApiResource("api1", "Some API 1"),
+                new ApiResource()
+                {
+                    Name = "api2",
+
+                    DisplayName = "Some API 2",
+
+                    // secret for using introspection endpoint
+                    ApiSecrets = new List<Secret>()
+                    {
+                        new Secret("secret")
+                    },
+
+                    // include the following using claims in access token (in addition to subject id)
+                    UserClaims = new List<string>() { ClaimTypes.Name, ClaimTypes.Email },
+
+                    // this API defines two scopes
+                    
+                    Scopes = new List<Scope>()
+                    {
+                        new Scope()
+                        {
+                            Name = "api2.full_access",
+                            DisplayName = "Full access to API 2",
+                        },
+                        new Scope()
+                        {
+                            Name = "api2.read_only",
+                            DisplayName = "Read only access to API 2"
+                        }
+                    }
+                }
+            };
+        }
         private static DateTime WellKnownTime
         {
             get { return new DateTime(2000, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc); }

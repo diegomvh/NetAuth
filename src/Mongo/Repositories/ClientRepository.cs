@@ -10,12 +10,5 @@ namespace NetAuth.Mongo.Repositories
         {
             
         }
-
-        public NetAuth.Mongo.Models.Client GetClient(string clientId)
-        {
-            System.Console.Write("GetClient");
-            var filter = Builders<NetAuth.Mongo.Models.Client>.Filter.Eq(x => x.ClientId, clientId);
-            return this.Collection.Find(filter).SingleOrDefaultAsync().Result;
-        }
     }
 }

@@ -9,7 +9,7 @@ namespace NetAuth.IdentityServer.InMemory
 
         public static IEnumerable<ApiResource> GetApi()
         {
-            return new []
+            return new List<ApiResource>()
             {
                 new ApiResource("api1", "Some API 1"),
                 new ApiResource

@@ -44,7 +44,7 @@ namespace NetAuth.Mongo.Models
             Name = name;
             DisplayName = displayName;
 
-            if (claimTypes.Count() != 0)
+            if (claimTypes != null && claimTypes.Count() != 0)
             {
                 foreach (var type in claimTypes)
                 {
