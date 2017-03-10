@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Extensions;
@@ -23,7 +24,7 @@ namespace NetAuth.Server.Mongo.Services
 
             var user = Repository.Users.Find(u => u.Sid == subjectId).FirstOrDefault();
 
-            context.IssuedClaims = new List<Claim>(user.Claims);
+            context.IssuedClaims = user.Claims.Select(c => new Claim(c.Type, c.Value)).ToList();
 
             return Task.FromResult(0);
         }
