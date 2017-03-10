@@ -7,7 +7,7 @@ namespace NetAuth.IdentityServer.InMemory
     public class Resources
     {
 
-        public static IEnumerable<ApiResource> GetApi()
+        public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>()
             {
@@ -46,7 +46,7 @@ namespace NetAuth.IdentityServer.InMemory
             };
         }
 
-        public static IEnumerable<IdentityResource> GetIdentity()
+        public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
             {

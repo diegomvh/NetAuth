@@ -26,11 +26,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.*" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.*" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.*" />
-    <PackageReference Include="MongoDB.Driver" Version="2.4.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.4.*" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Mongo/Mongo.csproj" />
+    <ProjectReference Include="../../../IdentityServer4.MongoDB/src/IdentityServer4.MongoDB/IdentityServer4.MongoDB.csproj" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
