@@ -5,7 +5,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 
-namespace NetAuth.Configuration
+namespace NetAuth.Server.Configuration
 {
     public class Custom
     {

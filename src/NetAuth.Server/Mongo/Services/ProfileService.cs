@@ -12,7 +12,6 @@ namespace NetAuth.Server.Mongo.Services
 {
     public class ProfileService : IProfileService
     {
-
         public IMongoRepository Repository;
         public ProfileService(IMongoRepository repository) {
             Repository = repository;

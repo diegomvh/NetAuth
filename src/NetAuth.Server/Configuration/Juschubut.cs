@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using IdentityServer4.Models;
 
-namespace NetAuth.Configuration
+namespace NetAuth.Server.Configuration
 {
     public class Juschubut
     {

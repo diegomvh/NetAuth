@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using IdentityServer4.MongoDB.Mappers;
 using IdentityServer4.MongoDB.Interfaces;
 using NetAuth.Server.Mongo;
+using NetAuth.Server.Mongo.Services;
 
 namespace NetAuth.Server
 {
@@ -41,25 +42,21 @@ namespace NetAuth.Server
             /*
             services.AddIdentityServer()
                 .AddTemporarySigningCredential()
-                .AddInMemoryClients(NetAuth.Server.InMemory.Clients.Get())
-                .AddTestUsers(NetAuth.Server.InMemory.Users.Get())
-                .AddInMemoryApiResources(NetAuth.Server.InMemory.Resources.GetApiResources())
-                .AddInMemoryIdentityResources(NetAuth.Server.InMemory.Resources.GetIdentityResources())
+                .AddInMemoryClients(NetAuth.Server.Configuration.Custom.Clients())
+                .AddTestUsers(NetAuth.Server.Configuration.Custom.TestUsers())
+                .AddInMemoryApiResources(NetAuth.Server.Configuration.Custom.ApiResources())
+                .AddInMemoryIdentityResources(NetAuth.Server.Configuration.Custom.IdentityResources())
                 .AddExtensionGrantValidator<CustomGrantValidator>();
-             */
-
+            */
+            
             var builder = services.AddIdentityServer()
                 .AddTemporarySigningCredential()
                 .AddConfigurationStore(Configuration.GetSection("MongoDbRepository"))
                 .AddOperationalStore(Configuration.GetSection("MongoDbRepository"));
-            // Stores
-            //services.AddTransient<IClientStore, NetAuth.Server.Mongo.Stores.ClientStore>();
-            //services.AddTransient<IResourceStore, NetAuth.Server.Mongo.Stores.ResourceStore>();
-            //services.AddTransient<IPersistedGrantStore, NetAuth.Server.Mongo.Stores.PersistedGrantStore>();
             
             services.AddTransient<IMongoRepository, MongoRepository>();
-            services.AddTransient<IProfileService, NetAuth.Server.Mongo.Services.ProfileService>();
-            //services.AddTransient<IResourceOwnerPasswordValidator, NetAuth.Server.ResourceOwnerPasswordValidator>();
+            services.AddTransient<IProfileService, ProfileService>();
+            services.AddTransient<IdentityServer4.Validation.IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
             //services.AddTransient<IPasswordHasher<NetAuth.Models.User>, PasswordHasher<NetAuth.Models.User>>();
 
             services.AddMvc();
@@ -88,7 +85,7 @@ namespace NetAuth.Server
                 var context = scope.ServiceProvider.GetRequiredService<IConfigurationRepository>();
                 if (context.Clients.Count(_ => true) == 0)
                 {
-                    foreach (var client in NetAuth.Configuration.Juschubut.Clients())
+                    foreach (var client in NetAuth.Server.Configuration.Juschubut.Clients())
                     {
                         context.Clients.InsertOne(client.ToDocument());
                     }
@@ -96,7 +93,7 @@ namespace NetAuth.Server
 
                 if (context.IdentityResources.Count(_ => true) == 0)
                 {
-                    foreach (var resource in NetAuth.Configuration.Juschubut.IdentityResources())
+                    foreach (var resource in NetAuth.Server.Configuration.Juschubut.IdentityResources())
                     {
                         context.IdentityResources.InsertOne(resource.ToDocument());
                     }
@@ -104,7 +101,7 @@ namespace NetAuth.Server
 
                 if (context.ApiResources.Count(_ => true) == 0)
                 {
-                    foreach (var resource in NetAuth.Configuration.Juschubut.ApiResources())
+                    foreach (var resource in NetAuth.Server.Configuration.Juschubut.ApiResources())
                     {
                         context.ApiResources.InsertOne(resource.ToDocument());
                     }
