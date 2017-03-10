@@ -17,6 +17,8 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using IdentityServer4;
+using NetAuth.Server.Mongo;
+using MongoDB.Driver;
 
 namespace NetAuth.Server.Quickstart.UI
 {
@@ -28,7 +30,7 @@ namespace NetAuth.Server.Quickstart.UI
     [SecurityHeaders]
     public class AccountController : Controller
     {
-        private readonly TestUserStore _users;
+        private readonly IMongoRepository _repository;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly AccountService _account;
 
@@ -36,10 +38,10 @@ namespace NetAuth.Server.Quickstart.UI
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IHttpContextAccessor httpContextAccessor,
-            TestUserStore users = null)
+            IMongoRepository repository = null)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
-            _users = users;
+            _repository = repository;
             _interaction = interaction;
             _account = new AccountService(interaction, httpContextAccessor, clientStore);
         }
@@ -71,7 +73,7 @@ namespace NetAuth.Server.Quickstart.UI
             if (ModelState.IsValid)
             {
                 // validate username/password against in-memory store
-                if (_users.ValidateCredentials(model.Username, model.Password))
+                if (_repository.ValidateCredentials(model.Username, model.Password))
                 {
                     AuthenticationProperties props = null;
                     // only set explicit expiration here if persistent. 
@@ -86,8 +88,8 @@ namespace NetAuth.Server.Quickstart.UI
                     };
 
                     // issue authentication cookie with subject ID and username
-                    var user = _users.FindByUsername(model.Username);
-                    await HttpContext.Authentication.SignInAsync(user.SubjectId, user.Username, props);
+                    var user = _repository.FindByUsername(model.Username);
+                    await HttpContext.Authentication.SignInAsync(user.Sid, user.Username, props);
 
                     // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
                     if (_interaction.IsValidReturnUrl(model.ReturnUrl))
@@ -232,12 +234,12 @@ namespace NetAuth.Server.Quickstart.UI
             var userId = userIdClaim.Value;
 
             // check if the external user is already provisioned
-            var user = _users.FindByExternalProvider(provider, userId);
+            var user = _repository.FindByExternalProvider(provider, userId);
             if (user == null)
             {
                 // this sample simply auto-provisions new external user
                 // another common approach is to start a registrations workflow first
-                user = _users.AutoProvisionUser(provider, userId, claims);
+                user = _repository.AutoProvisionUser(provider, userId, claims);
             }
 
             var additionalClaims = new List<Claim>();
@@ -259,7 +261,7 @@ namespace NetAuth.Server.Quickstart.UI
             }
 
             // issue authentication cookie for user
-            await HttpContext.Authentication.SignInAsync(user.SubjectId, user.Username,  provider, props, additionalClaims.ToArray());
+            await HttpContext.Authentication.SignInAsync(user.Sid, user.Username,  provider, props, additionalClaims.ToArray());
 
             // delete temporary cookie used during external authentication
             await HttpContext.Authentication.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);

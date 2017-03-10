@@ -8,9 +8,7 @@ using IdentityServer4.Services;
 using MongoDB.Driver;
 using IdentityServer4.MongoDB.Mappers;
 using IdentityServer4.MongoDB.Interfaces;
-using IdentityServer4.Validation;
-using NetAuth.Server.Extensions;
-using Microsoft.AspNetCore.Hosting.Internal;
+using NetAuth.Server.Mongo;
 
 namespace NetAuth.Server
 {
@@ -53,14 +51,14 @@ namespace NetAuth.Server
             var builder = services.AddIdentityServer()
                 .AddTemporarySigningCredential()
                 .AddConfigurationStore(Configuration.GetSection("MongoDbRepository"))
-                .AddOperationalStore(Configuration.GetSection("MongoDbRepository"))
-                .AddExtensionGrantValidator<CustomGrantValidator>();
+                .AddOperationalStore(Configuration.GetSection("MongoDbRepository"));
             // Stores
             //services.AddTransient<IClientStore, NetAuth.Server.Mongo.Stores.ClientStore>();
             //services.AddTransient<IResourceStore, NetAuth.Server.Mongo.Stores.ResourceStore>();
             //services.AddTransient<IPersistedGrantStore, NetAuth.Server.Mongo.Stores.PersistedGrantStore>();
             
-            //services.AddTransient<IProfileService, NetAuth.Server.Mongo.Services.ProfileService>();
+            services.AddTransient<IMongoRepository, MongoRepository>();
+            services.AddTransient<IProfileService, NetAuth.Server.Mongo.Services.ProfileService>();
             //services.AddTransient<IResourceOwnerPasswordValidator, NetAuth.Server.ResourceOwnerPasswordValidator>();
             //services.AddTransient<IPasswordHasher<NetAuth.Models.User>, PasswordHasher<NetAuth.Models.User>>();
 
@@ -87,7 +85,7 @@ namespace NetAuth.Server
         {
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<IConfigurationDbContext>();
+                var context = scope.ServiceProvider.GetRequiredService<IConfigurationRepository>();
                 if (context.Clients.Count(_ => true) == 0)
                 {
                     foreach (var client in NetAuth.Configuration.Juschubut.Clients())

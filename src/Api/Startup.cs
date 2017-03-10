@@ -59,7 +59,7 @@ namespace NetAuth.Api
                 Authority = "http://localhost:5000",
                 RequireHttpsMetadata = false,
 
-                ApiName = "api1"
+                ApiName = "serconexpenal-api"
             });
 
             app.UseMvc();

@@ -16,8 +16,8 @@ namespace NetAuth.Client
             var disco = await DiscoveryClient.GetAsync("http://localhost:5000");
 
             // request token
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "client", "secret");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
+            var tokenClient = new TokenClient(disco.TokenEndpoint, "coiron-mvc", "secret");
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("serconexpenal-api");
 
             if (tokenResponse.IsError)
             {
