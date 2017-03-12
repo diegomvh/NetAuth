@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using IdentityServer4;
 using IdentityServer4.Models;
 
 namespace NetAuth.Server.Configuration
@@ -114,9 +115,11 @@ namespace NetAuth.Server.Configuration
                 {
                     ClientId = "skua-mvc",
                     ClientName = "Cliente MVC Skua",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("secret".Sha256())},
-                    AllowedScopes = { "role", "skua-rw-api", "skua-tw-api", "skua-eq-api" }
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:5002" },
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile, "role", "skua-rw-api", "skua-tw-api", "skua-eq-api" }
                 },
                 new Client
                 {
