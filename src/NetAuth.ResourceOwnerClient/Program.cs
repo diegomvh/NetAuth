@@ -16,8 +16,8 @@ namespace NetAuth.ResourceOwnerClient
             var disco = await DiscoveryClient.GetAsync("http://localhost:5000");
 
             // request token
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "ro.client", "secret");
-            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("alice", "alice", "api1");
+            var tokenClient = new TokenClient(disco.TokenEndpoint, "coiron-mvc", "secret");
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("dvanhaaster", "5b121c2e4c0b15045d0f8d6309d08aab", "coiron-rw-api");
 
             if (tokenResponse.IsError)
             {
