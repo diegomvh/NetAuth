@@ -15,7 +15,6 @@ namespace NetAuth.Server.Mongo
         {
             var username = context.UserName;
             var password = context.Password;
-            
             context.Result = Repository.ValidateCredentials(username, password) ?
                 new GrantValidationResult(username, "password"):
                 new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Wrong username or password");

@@ -99,7 +99,7 @@ namespace NetAuth.Server.Configuration
                 {
                     ClientId = "coiron-mvc",
                     ClientName = "Cliente MVC Coiron",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     ClientSecrets = { new Secret("secret".Sha256())},
                     AllowedScopes = { "role", "coiron-rw-api", "coiron-tw-api", "coiron-eq-api" }
                 },
