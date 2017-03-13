@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -22,8 +21,17 @@ namespace NetAuth.Server.Mongo.Services
             var subjectId = context.Subject.GetSubjectId();
 
             var user = Repository.Users.Find(u => u.Sid == subjectId).FirstOrDefault();
+            var claims = user.Claims.Select(c => new Claim(c.Type, c.Value));
+            if (context.RequestedClaimTypes.Count() != 0)
+            {
+                var requestedClaimTypes = context.RequestedClaimTypes;
+                if (requestedClaimTypes != null)
+                    claims = claims.Where(c => requestedClaimTypes.Contains(c.Type));
+                else
+                    claims = claims.Take(0);
+            }
 
-            context.IssuedClaims = user.Claims.Select(c => new Claim(c.Type, c.Value)).ToList();
+            context.IssuedClaims = claims.ToList();
 
             return Task.FromResult(0);
         }
@@ -33,7 +41,7 @@ namespace NetAuth.Server.Mongo.Services
             var subjectId = context.Subject.GetSubjectId();
             
             var user = Repository.Users.Find(u => u.Sid == subjectId).FirstOrDefault();
-            context.IsActive = (user != null) && user.IsActive;
+            context.IsActive = user?.IsActive ?? false;
             
             return Task.FromResult(0);
         }

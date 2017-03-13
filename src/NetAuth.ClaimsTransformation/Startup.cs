@@ -73,8 +73,7 @@ namespace NetAuth.ClaimsTransformation
                 Authority = "http://localhost:5000",
                 RequireHttpsMetadata = false,
 
-                //ApiName = "serconexcivil-api"
-                ApiName = "coiron-rw-api"
+                ApiName = "serconexcivil-api"
             });
 
             app.UseClaimsTransformation(o => new ClaimsTransformer().TransformAsync(o));

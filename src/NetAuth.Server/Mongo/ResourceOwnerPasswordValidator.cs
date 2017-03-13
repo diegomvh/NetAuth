@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using MongoDB.Driver;
 
 namespace NetAuth.Server.Mongo
 {
@@ -15,10 +16,13 @@ namespace NetAuth.Server.Mongo
         {
             var username = context.UserName;
             var password = context.Password;
-            context.Result = Repository.ValidateCredentials(username, password) ?
-                new GrantValidationResult(username, "password"):
-                new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Wrong username or password");
             
+            var user = Repository.Users.Find(u => u.Username == username).FirstOrDefault();
+
+            context.Result = user?.Password == password ?
+                new GrantValidationResult(user.Sid, "pwd"):
+                new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Wrong username or password");
+
             return Task.FromResult(0);
         }
     }

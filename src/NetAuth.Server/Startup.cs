@@ -51,12 +51,15 @@ namespace NetAuth.Server
             
             var builder = services.AddIdentityServer()
                 .AddTemporarySigningCredential()
-                .AddConfigurationStore(Configuration.GetSection("MongoDbRepository"))
-                .AddOperationalStore(Configuration.GetSection("MongoDbRepository"));
+                .AddInMemoryClients(NetAuth.Server.Configuration.Juschubut.Clients())
+                .AddInMemoryApiResources(NetAuth.Server.Configuration.Juschubut.ApiResources())
+                //.AddConfigurationStore(Configuration.GetSection("MongoDbRepository"))
+                //.AddOperationalStore(Configuration.GetSection("MongoDbRepository"));
+                .AddTestUsers(NetAuth.Server.Configuration.Juschubut.TestUsers());
             
             services.AddTransient<IMongoRepository, MongoRepository>();
-            services.AddTransient<IProfileService, ProfileService>();
-            services.AddTransient<IdentityServer4.Validation.IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+            //services.AddTransient<IProfileService, ProfileService>();
+            //services.AddTransient<IdentityServer4.Validation.IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
             //services.AddTransient<IPasswordHasher<NetAuth.Models.User>, PasswordHasher<NetAuth.Models.User>>();
 
             services.AddMvc();
@@ -68,7 +71,7 @@ namespace NetAuth.Server
         {
             //loggerFactory.AddConsole(LogLevel.Debug);
             //loggerFactory.AddDebug(LogLevel.Debug);
-            InitializeDatabase(app);
+            //InitializeDatabase(app);
 
             app.UseDeveloperExceptionPage();
 

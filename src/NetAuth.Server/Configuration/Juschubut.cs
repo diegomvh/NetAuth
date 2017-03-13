@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Security.Claims;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 
 namespace NetAuth.Server.Configuration
 {
@@ -99,7 +102,7 @@ namespace NetAuth.Server.Configuration
                 {
                     ClientId = "coiron-mvc",
                     ClientName = "Cliente MVC Coiron",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = { new Secret("secret".Sha256())},
                     AllowedScopes = { "role", "coiron-rw-api", "coiron-tw-api", "coiron-eq-api" }
                 },
@@ -125,7 +128,7 @@ namespace NetAuth.Server.Configuration
                 {
                     ClientId = "serconexcivil-mvc",
                     ClientName = "Cliente MVC Serconex Civil",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = { new Secret("secret".Sha256())},
                     AllowedScopes = { "role", "dni", "serconexcivil-api", "libra-rw-api", "libra-tw-api", "libra-eq-api" }
                 },
@@ -138,6 +141,41 @@ namespace NetAuth.Server.Configuration
                     AllowedScopes = { "role", "dni", "serconexpenal-api", "skua-rw-api", "skua-tw-api", "skua-eq-api" }
                 }
             };
+        }
+        public static List<TestUser> TestUsers()
+        {
+            var users = new List<TestUser>
+            {
+                new TestUser{SubjectId = "1", Username = "dvanhaaster", Password = "dvanhaaster", 
+                    Claims = new Claim[]
+                    {
+                        new Claim(JwtClaimTypes.Name, "Diego van Haaster"),
+                        new Claim(JwtClaimTypes.GivenName, "Diego"),
+                        new Claim(JwtClaimTypes.FamilyName, "van Haaster"),
+                        new Claim(JwtClaimTypes.Email, "dvanhaaster@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.Role, "Developer"),
+                        new Claim(JwtClaimTypes.Role, "Geek"),
+                        new Claim(JwtClaimTypes.WebSite, "http://diegomvh.com"),
+                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServerConstants.ClaimValueTypes.Json)
+                    }
+                },
+                new TestUser{SubjectId = "2", Username = "ecolombres", Password = "ecolombres",
+                    Claims = new Claim[]
+                    {
+                        new Claim(JwtClaimTypes.Name, "Eduardo Colombres"),
+                        new Claim(JwtClaimTypes.GivenName, "Eduardo"),
+                        new Claim(JwtClaimTypes.FamilyName, "Colombres"),
+                        new Claim(JwtClaimTypes.Email, "ecolombres@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.Role, "Admin"),
+                        new Claim(JwtClaimTypes.Role, "Geek"),
+                        new Claim(JwtClaimTypes.WebSite, "http://educolombres.com"),
+                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServerConstants.ClaimValueTypes.Json)
+                    }
+                },
+            };
+            return users;
         }
     }
 }
