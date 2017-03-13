@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetAuth.ClaimsTransformation.Authorizations;
 
 namespace NetAuth.ClaimsTransformation
 {
@@ -40,8 +43,21 @@ namespace NetAuth.ClaimsTransformation
 
             // Add framework services.
             services.AddMvcCore()
-                .AddAuthorization()
+                .AddAuthorization(
+                    options => {
+                        //Custom
+                        options.AddPolicy("Over21",
+                            policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
+                        //Function
+                        options.AddPolicy("BadgeEntry",
+                            policy => policy.RequireAssertion(context =>
+                                context.User.HasClaim(c =>
+                                    (c.Type == ClaimTypes.Role ||
+                                    c.Type == ClaimTypes.Country)
+                                    && c.Issuer == "https://microsoftsecurity")));
+                })
                 .AddJsonFormatters();
+            services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,13 +67,14 @@ namespace NetAuth.ClaimsTransformation
             loggerFactory.AddDebug();
 
             app.UseCors("default");
-
+            
             app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {
                 Authority = "http://localhost:5000",
                 RequireHttpsMetadata = false,
 
-                ApiName = "serconexcivil-api"
+                //ApiName = "serconexcivil-api"
+                ApiName = "coiron-rw-api"
             });
 
             app.UseClaimsTransformation(o => new ClaimsTransformer().TransformAsync(o));
